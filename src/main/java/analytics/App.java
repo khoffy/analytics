@@ -11,6 +11,18 @@ import org.apache.storm.topology.TopologyBuilder;
  */
 public class App {
     public static void main( String[] args ) {
+        /**
+         * Let's create our 1st Storm's topology (without Spout and Bolt) using a TopologyBuilder
+         */
+        TopologyBuilder builder = new TopologyBuilder();
+        StormTopology topology = builder.createTopology();
 
+        /*
+        To run a tpology, we need a cluster. As we don't have any available cluster, let's use
+        a local cluster to which we're going to submit the topology
+         */
+        LocalCluster cluster = new LocalCluster();
+        Config config = new Config();
+        cluster.submitTopology("analytics", config, topology);
     }
 }
