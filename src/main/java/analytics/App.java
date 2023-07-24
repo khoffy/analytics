@@ -16,7 +16,11 @@ public class App {
          */
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("page-visits", new PageVisitSpout());
-        builder.setBolt("visit-counts", new PageVisitBolt()).shuffleGrouping("page-visits");
+        //builder.setBolt("visit-counts", new PageVisitBolt()).shuffleGrouping("page-visits");
+
+        // Let's use a model where the bolt will be executed on two workers simultaneously. Inside the console,
+        // we observe that the visit number for every user is not correct.
+        builder.setBolt("visit-counts", new PageVisitBolt(), 2).shuffleGrouping("page-visits");
         StormTopology topology = builder.createTopology();
 
         /*
