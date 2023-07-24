@@ -37,7 +37,7 @@ public class PageVisitSpout extends BaseRichSpout {
      */
     @Override
     public void nextTuple() {
-        String[] urls = {"http://example.com/index.html", "http://example.com/404.html", "http://example.com/"};
+        String[] urls = {"http://example.com/index.html", "http://example.com/404.html", "http://example.com/subscribe.html"};
         Integer[] userIds = {1, 2, 3, 5};
 
         String url = urls[ThreadLocalRandom.current().nextInt(urls.length)];

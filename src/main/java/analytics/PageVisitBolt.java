@@ -15,7 +15,7 @@ for each page and each user.
  */
 public class PageVisitBolt extends BaseRichBolt {
     private HashMap<String, Integer> pageVisitCounts;
-    private HashMap<String, Integer> userVisitCounts;
+    private HashMap<Integer, Integer> userVisitCounts;
     private Integer totalVisitCount;
 
     /*
@@ -38,7 +38,10 @@ public class PageVisitBolt extends BaseRichBolt {
         Integer userId = tuple.getIntegerByField("userId");
 
         pageVisitCounts.putIfAbsent(url, 0);
-        userVisitCounts.putIfAbsent(userId.toString(), 0);
+        userVisitCounts.putIfAbsent(userId, 0);
+
+        pageVisitCounts.put(url, pageVisitCounts.get(url) + 1);
+        userVisitCounts.put(userId, userVisitCounts.get(userId) + 1);
         totalVisitCount += 1;
 
         System.out.printf("Received visit #%d from user %d (total: %d) to page %s (total: %d)\n",

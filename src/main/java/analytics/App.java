@@ -15,6 +15,8 @@ public class App {
          * Let's create our 1st Storm's topology (without Spout and Bolt) using a TopologyBuilder
          */
         TopologyBuilder builder = new TopologyBuilder();
+        builder.setSpout("page-visits", new PageVisitSpout());
+        builder.setBolt("visit-counts", new PageVisitBolt()).shuffleGrouping("page-visits");
         StormTopology topology = builder.createTopology();
 
         /*
