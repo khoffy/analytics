@@ -24,5 +24,6 @@ public class App {
         LocalCluster cluster = new LocalCluster();
         Config config = new Config();
         cluster.submitTopology("analytics", config, topology);
+
     }
 }
