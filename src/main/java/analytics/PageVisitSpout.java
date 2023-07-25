@@ -43,12 +43,28 @@ public class PageVisitSpout extends BaseRichSpout {
         String url = urls[ThreadLocalRandom.current().nextInt(urls.length)];
         Integer userId = userIds[ThreadLocalRandom.current().nextInt(userIds.length)];
 
-        outputCollector.emit(new Values(url, userId));
+        Values value = new Values(url, userId);
+        //Associated an identifier (value) to the tuple (value)
+        //outputCollector.emit(new Values(url, userId));
+        outputCollector.emit(value, value);
         Utils.sleep(2000); // simulate a 2 seconds break between two access.
     }
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
         outputFieldsDeclarer.declare(new Fields("url", "userId"));
+    }
+
+    // This method will be called when the tuple send will be entirely processed
+    @Override
+    public void ack(Object msgId) {
+        System.out.printf("Correctly processed: %s\n", msgId);
+    }
+
+    @Override
+    public void fail(Object msgId) {
+        System.out.printf("ERROR processing: %s\n", msgId);
+        Values tuple = (Values) msgId;
+        outputCollector.emit(tuple, msgId);
     }
 }

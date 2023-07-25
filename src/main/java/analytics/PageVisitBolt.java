@@ -42,6 +42,7 @@ public class PageVisitBolt extends BaseRichBolt {
         outputCollector.emit(new Values(url, userId));
 
         System.out.printf("Received visit #%d from user %d to page %s\n", totalVisitCount, userId, url);
+        outputCollector.ack(tuple);
 
     }
 
@@ -49,4 +50,5 @@ public class PageVisitBolt extends BaseRichBolt {
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
         outputFieldsDeclarer.declare(new Fields("url", "userId"));
     }
+
 }

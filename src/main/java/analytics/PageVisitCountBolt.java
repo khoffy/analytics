@@ -14,10 +14,12 @@ import java.util.Map;
 public class PageVisitCountBolt extends BaseRichBolt {
 
     private HashMap<String, Integer> pageVisitCounts;
+    private OutputCollector outputCollector;
     @Override
     public void prepare(Map map, TopologyContext topologyContext, OutputCollector collector) {
         // Initialisation
         pageVisitCounts = new HashMap<>();
+        outputCollector = collector;
     }
 
     @Override
@@ -27,6 +29,8 @@ public class PageVisitCountBolt extends BaseRichBolt {
         pageVisitCounts.put(url, pageVisitCounts.get(url) + 1);
 
         System.out.printf("Received visit to page %s (total: %d)\n", url, pageVisitCounts.get(url));
+        outputCollector.ack(tuple);
+
     }
 
     @Override

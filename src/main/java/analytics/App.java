@@ -36,6 +36,7 @@ public class App {
          */
         LocalCluster cluster = new LocalCluster();
         Config config = new Config();
+        config.setMessageTimeoutSecs(2);
         cluster.submitTopology("analytics", config, topology);
 
     }
